@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!--Se Edita el formulario-->
+<link rel="stylesheet" type="text/css" href="/static/css/design.css">
+
+<form action="/area_fedita/{{comentar}}" method="post">
+<!--form action="/area_fedita/{{comentar.0}}" method="post"-->
+   <div class="container">
+          <div class="form-row">
+               <div class="col-xs-12 ">
+                <div class="mb-3">
+                      <label for="descripcion" class="form-label">Area</label>
+                      <input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="area" value="{{comentar}}">
+                      <!--input type="text" class="form-control" name="descripcion" id="descripcion" placeholder="area" value="{{comentar.1}}"-->
+                </div>
+
+                </div>
+          </div>
+    </div>
+    <!--es un boton al presionar  hace la accion de actualizar-->
+          <button type="submit" class="btn btn-primary">Actualizar</button>
+</form>
+<div id="particles-js"></div>
+<script src="/static/js/particles.min.js"></script>
+<script src="/static/js/app.js"></script>
+{% endblock %}
+<!--Finaliza el bloque-->
