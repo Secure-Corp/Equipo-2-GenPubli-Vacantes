@@ -1,4 +1,4 @@
-	Dependencia para la librería WeasyPrint
+	Instrucciones para la Dependencia de la librería WeasyPrint
 
 Instalar el paquete GTK:
 
