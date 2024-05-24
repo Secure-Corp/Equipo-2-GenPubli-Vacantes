@@ -16,54 +16,10 @@ def area():
     datos = cursor.fetchall()
     return render_template("area.html", comentarios = datos)
 
-@app.route('/carrera')
-def carrera():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area order by idArea')
-    datos = cursor.fetchall()
-    return render_template("carrera.html", comentarios = datos)
 
-@app.route('/escolaridad')
-def escolaridad():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area order by idArea')
-    datos = cursor.fetchall()
-    return render_template("escolaridad.html", comentarios = datos)
+#Codigo de Python del Equipo2
 
-@app.route('/EstadoCivil')
-def EstadoCivil():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area order by idArea')
-    datos = cursor.fetchall()
-    return render_template("EstadoCivil.html", comentarios = datos)
-
-@app.route('/GradoAv')
-def GradoAv():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area order by idArea')
-    datos = cursor.fetchall()
-    return render_template("GradoAV.html", comentarios = datos)
-
-@app.route('/Habilidades')
-def Habilidades():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area order by idArea')
-    datos = cursor.fetchall()
-    return render_template("Habilidades.html", comentarios = datos)
-
-@app.route('/idiomas')
-def idiomas():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
-    cursor = conn.cursor()
-    cursor.execute('select idArea, descripcion from area order by idArea')
-    datos = cursor.fetchall()
-    return render_template("idiomas.html", comentarios = datos)
-
+#Renderizado para las Vacantes Equipo2
 @app.route('/vacantes')
 def vacantes():
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
@@ -75,6 +31,7 @@ def vacantes():
     return render_template("vacantes.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
 
+#Metodo para mostrar los datos en la publicacion de Vacantes Equipo2
 @app.route('/vacantes_publ/<string:idV>', methods=['GET'])
 def vacantes_publ(idV):
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
@@ -113,6 +70,7 @@ def vacantes_publ(idV):
     return render_template("pub_vacantes.html", pue = datos, dat=dato[0], catArea=datos1[0], catEdoCivil=datos2[0], catEscolaridad=datos3[0],
                            catGradoAvance=datos4[0], catCarrera=datos5[0], catIdioma=datos6, catHabilidad=datos7)
 
+#Renderizado para la Publicacion de Vacantes Equipo2
 @app.route('/pub_vacantes')
 def pub_vacantes():
     return render_template("pub_vacantes.html")
@@ -127,6 +85,45 @@ def vacantes_pub():
 
     return render_template("vacantes.html", pue = datos, dat='   ', catArea = '   ', catEdoCivil = '   ', catEscolaridad = '   ',
                            catGradoAvance = '    ', catCarrera = '    ', catIdioma = ' ', catHabilidad = ' ')
+
+#Funcion para Generar un Anuncio de Vacantes por PDF Equipo2
+#Libreria Usada WeasyPrint (Instalacion: pip install weasyprint       Despues se instalaran y configurara la dependencia)
+@app.route('/generate_pdf', methods=['POST'])
+def generate_pdf():
+    # Obtener datos del formulario
+    data = {
+        "nomPuesto": request.form['nomPuesto'],
+        "codPuesto": request.form['codPuesto'],
+        "idArea": request.form['idArea'],
+        "puestoJefeSup": request.form['puestoJefeSup'],
+        "jornada": request.form['jornada'],
+        "remunMensual": request.form['remunMensual'],
+        "prestaciones": request.form['prestaciones'],
+        "descripcionGeneral": request.form['descripcionGeneral'],
+        "funciones": request.form['funciones'],
+        "edad": request.form['edad'],
+        "sexo": request.form['sexo'],
+        "idEstadoCivil": request.form['idEstadoCivil'],
+        "idEscolaridad": request.form['idEscolaridad'],
+        "idGradoAvance": request.form['idGradoAvance'],
+        "idFormaPubl": request.form['idFormaPubl']
+    }
+
+    # Renderizar plantilla HTML con los datos
+    rendered_html = render_template('pdf.html', data=data)
+
+    # Convertir el HTML a PDF
+    pdf = HTML(string=rendered_html).write_pdf()
+
+    # Guardar el PDF en el sistema de archivos
+    pdf_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'vacante.pdf')
+    with open(pdf_path, 'wb') as f:
+        f.write(pdf)
+
+    # Devolver el PDF como respuesta
+    return send_file(pdf_path, as_attachment=True, download_name='vacante.pdf')
+
+#Fin del codigo del Equipo2
 
 @app.route('/area_editar/<string:id>')
 def area_editar(id):
@@ -474,41 +471,6 @@ def puesto_fedita(idP):
             cursor.execute('insert into puesto_has_habilidad(idPuesto,idHabilidad) values (%s,%s)', (idP, i))
             conn.commit()
     return redirect(url_for('puesto'))
-
-@app.route('/generate_pdf', methods=['POST'])
-def generate_pdf():
-    # Obtener datos del formulario
-    data = {
-        "nomPuesto": request.form['nomPuesto'],
-        "codPuesto": request.form['codPuesto'],
-        "idArea": request.form['idArea'],
-        "puestoJefeSup": request.form['puestoJefeSup'],
-        "jornada": request.form['jornada'],
-        "remunMensual": request.form['remunMensual'],
-        "prestaciones": request.form['prestaciones'],
-        "descripcionGeneral": request.form['descripcionGeneral'],
-        "funciones": request.form['funciones'],
-        "edad": request.form['edad'],
-        "sexo": request.form['sexo'],
-        "idEstadoCivil": request.form['idEstadoCivil'],
-        "idEscolaridad": request.form['idEscolaridad'],
-        "idGradoAvance": request.form['idGradoAvance'],
-        "idFormaPubl": request.form['idFormaPubl']
-    }
-
-    # Renderizar plantilla HTML con los datos
-    rendered_html = render_template('pdf.html', data=data)
-
-    # Convertir el HTML a PDF
-    pdf = HTML(string=rendered_html).write_pdf()
-
-    # Guardar el PDF en el sistema de archivos
-    pdf_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static', 'vacante.pdf')
-    with open(pdf_path, 'wb') as f:
-        f.write(pdf)
-
-    # Devolver el PDF como respuesta
-    return send_file(pdf_path, as_attachment=True, download_name='vacante.pdf')
 
 
 

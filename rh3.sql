@@ -44,7 +44,7 @@ INSERT INTO `area` (`idArea`, `descripcion`) VALUES
 (3, 'PRODUCCION'),
 (4, 'FINANZAS Y CONTABILIDAD'),
 (5, 'MERCADOTECNIA'),
-(8, 'informática');
+(6, 'INFORMATICA');
 
 -- --------------------------------------------------------
 
@@ -103,11 +103,6 @@ CREATE TABLE IF NOT EXISTS `candidato` (
 INSERT INTO `candidato` (`idCandidato`, `idVacante`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `tel2`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`, `entrevSelecReq`, `entrevSelecPresen`, `entrevSelecResult`, `evalMedicaReq`, `evalMedicaPresen`, `evalMedicaResult`, `evalPsicolgReq`, `evalPsicologPresen`, `evalPsicologResult`, `evalPsicometReq`, `evalPsicometPresene`, `evalPsicometResult`, `evalTecnicaReq`, `evalTecnicaPresen`, `evalTecnicaResult`, `evalConocReq`, `evalConocPresen`, `evalConocResult`, `entrevFinalReq`, `entrevFinalPresen`, `entrevFinalResul`) VALUES
 (1, 1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'fasdfads', 'adsfa', '23', 'erqwr', '32', '23', 'rqwr', 23, 'Indistinto', 1, 2, 1, 1, 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, ''),
 (2, 1, 1, 1, 'ROML551119HASDCR08', 'dfadf', 'juan', 'adsfa', '23', 'erqwr', '32', '23', 'rqwr', 23, 'Indistinto', 3, 2, 3, 1, 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '', 0, 0, '');
-
--- --------------------------------------------------------
-
-
-
 
 -- --------------------------------------------------------
 
@@ -216,7 +211,7 @@ INSERT INTO `escolaridad` (`idEscolaridad`, `descripcion`) VALUES
 (6, 'LICENCIATURA / INGENIERÍA / PROFESIONAL'),
 (7, 'MAESTRIA'),
 (8, 'DOCTORADO'),
-(9, 'kinder según andrei');
+(9, 'KINDER');
 
 -- --------------------------------------------------------
 
@@ -482,6 +477,46 @@ INSERT INTO `requisicion` (`idRequisicion`, `folio`, `fechaElab`, `fechaRecluta`
 (1, '1', '0000-00-00', '0000-00-00', '0000-00-00', '1', '', '', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1),
 (10, '2', '2023-11-23', '2023-11-27', '2023-12-01', 'Otro', 'temporada', 'Temporal', 'LUIS, JEFE DE VENTAS', 'luis', 'juan', 1, 1, 1);
 
+
+CREATE TABLE IF NOT EXISTS `examen` (
+  `idExamen` int(11) NOT NULL AUTO_INCREMENT, 
+  `nombre` varchar(70) NOT NULL,
+  `preg1` varchar(250) NOT NULL,
+  `preg2` varchar(250) NOT NULL,
+  `preg3` varchar(250) NOT NULL,
+  `preg4` varchar(250) NOT NULL,
+  `preg5` varchar(250) NOT NULL,
+  `preg6` varchar(250) NOT NULL,
+  `preg7` varchar(250) NOT NULL,
+  `preg8` varchar(250) NOT NULL,
+  `preg9` varchar(250) NOT NULL,
+  `preg10` varchar(250) NOT NULL,
+  `preg11` varchar(250) NOT NULL,
+  `preg12` varchar(250) NOT NULL,
+  PRIMARY KEY (`idExamen`)
+);
+
+CREATE TABLE IF NOT EXISTS `calificaciones` (
+  `idCalificacion` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) NOT NULL,
+  `calificacion` int(11) NOT NULL,
+  `preg1` varchar(250) NOT NULL,
+  `preg2` varchar(250) NOT NULL,
+  `preg3` varchar(250) NOT NULL,
+  `preg4` varchar(250) NOT NULL,
+  `preg5` varchar(250) NOT NULL,
+  `preg6` varchar(250) NOT NULL,
+  `preg7` varchar(250) NOT NULL,
+  `preg8` varchar(250) NOT NULL,
+  `preg9` varchar(250) NOT NULL,
+  `preg10` varchar(250) NOT NULL,
+  `preg11` varchar(250) NOT NULL,
+  `preg12` varchar(250) NOT NULL,
+  PRIMARY KEY (`idCalificacion`)
+);
+
+
+
 -- --------------------------------------------------------
 
 --
@@ -511,30 +546,113 @@ INSERT INTO `vacante` (`idVacante`, `conseVR`, `fuenteCandidato`, `inicioFechaPu
 (1, 0, 'Interno', '2023-11-23', '2023-11-27', 1, 'gfgf', 0, '0000-00-00', 1, 1);
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
---
--- Estructura de tabla para la tabla `candidatoSeleccionado`
---
+-- Empleados
 
-/*CREATE TABLE IF NOT EXISTS `candidato_seleccionado` (
-  `idCandidato` int(11) NOT NULL,
-  `idVacante` int(11) NOT NULL,
+CREATE TABLE `empleado` (
+  `idEmpleado` int(11) NOT NULL AUTO_INCREMENT,
   `idRequisicion` int(11) NOT NULL,
   `idPuesto` int(11) NOT NULL,
   `CURP` varchar(30) NOT NULL,
   `RFC` varchar(20) NOT NULL,
   `nombre` varchar(40) NOT NULL,
-  PRIMARY KEY (`idCandidato`)
-)
+  `descripcion` varchar(255) DEFAULT NULL,
+  `apellido` varchar(40) NOT NULL,
+  `domCalle` varchar(40) NOT NULL,
+  `domNumExtInt` varchar(30) NOT NULL,
+  `domColonia` varchar(40) NOT NULL,
+  `tel1` varchar(20) NOT NULL,
+  `sueldo` varchar(20) NOT NULL,
+  `correoE` varchar(40) NOT NULL,
+  `edad` int(11) NOT NULL,
+  `sexo` varchar(10) NOT NULL,
+  `idEstadoCivil` int(11) NOT NULL,
+  `idEscolaridad` int(11) NOT NULL,
+  `idGradoAvance` int(11) NOT NULL,
+  `idCarrera` int(11) NOT NULL,
+  PRIMARY KEY (`idEmpleado`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 
-DELIMITER //
-CREATE FUNCTION domicilio(nombre VARCHAR(40), domCalle VARCHAR(40), domNumExtInt VARCHAR(30), domColonia VARCHAR(40)) RETURNS VARCHAR(200)
-	BEGIN 
-    DECLARE domicilio VARCHAR(200);
-    
-    
-	END //*/
+--
+-- Volcado de datos para la tabla `empleados`
+--
+
+INSERT INTO `empleado` (`idEmpleado`, `idRequisicion`, `idPuesto`, `CURP`, `RFC`, `nombre`, `apellido`, `domCalle`, `domNumExtInt`, `domColonia`, `tel1`, `sueldo`, `correoE`, `edad`, `sexo`, `idEstadoCivil`, `idEscolaridad`, `idGradoAvance`, `idCarrera`) VALUES
+(1, 1, 1, 'ROGH760106MASDML03', 'dfadf', 'Carlitos', 'Muntez', 'Villas', '#23', 'palmas', '4491102343', '$233', 'carlitos@gmail.com', 23, 'Macho', 1, 2, 1, 1),
+(2, 1, 1, 'ROML551119HASDCR08', 'dfajy', 'Pepe', 'Maciado', 'Potreros', '#26', 'cruz', '4491739435', '$2223', 'pepe@gmail.com', 23, 'Indistinto', 3, 2, 3, 1);
+
+
+-- 
+-- tabla de candidatos aceptados
+--
+ 
+ create table  IF not exists `usuario` (
+ `idusuario` int(11) not null auto_increment,
+ `numero` int(10) not null unique,
+ `nombre` varchar(120) not null,
+ `telefono` int(13) not null,
+ `direccion` varchar(100) not null,
+ `curp` varchar(18) not null,
+ `vacante` varchar(50) not null,
+ primary key(`idusuario`));
+ 
+--
+-- Volcado de datos para la tabla `candidatos`
+--
+
+insert into `usuario`(`numero`,`nombre`,`telefono`,`direccion`,`curp`,`vacante`)VALUES
+(123232445,'Juan del montes',4493454564,'calle noche buena 120','kjfdhg495kg','Obrero'),
+(456456445,'Juan de los montes',4493454584,'calle noche buena 122','kjfdhg495kg','Marquetink'),
+(123232498,'Juan del rancho',4493659564,'calle noche buena 123','kjfdhg495kg','Panista'),
+(123232425,'Juan del terreno',4493454964,'calle noche buena 124','kjfdhg495kg','Contador');
+
+
+ 
+ -- 
+ -- Encuentra la tabal de la tabla "cursos"
+ --
+ create table IF not exists `cursos`(
+ `idcursos` int(11) not null auto_increment,
+ `nombre` varchar(50) not null,
+ `descripcion` varchar(120) not null,
+ primary key(`idcursos`)
+ );
+ 
+--
+-- Volcado de datos para la tabla `cursos`
+--
+ 
+ insert into `cursos`(`nombre`,`descripcion`) VALUES 
+ ('curso de PAn','Curso obliagtorio que te hab'),
+ ('curso de Contar','Curso obliagtorio que te '),
+ ('curso de Idiomas','Curso obliagtorio q'),
+ ('curso de Maquinaria','Curso obliagtorio que te habla de lo que tienes que hacer');
+ 
+
+--
+-- estructura de la tabla para agregar cursos a un usuario
+--
+  create table IF not exists `agcuso`(
+ `idagcu` int(11) not null auto_increment,
+ `nombre` varchar(50) not null,
+ `descripcion` varchar(120) not null,
+ `completado` int(3) not null,
+ `idusuario` int(11) not null,
+ primary key(`idagcu`)
+ );
+
+--
+-- estructura para marcar el estado de un  curso
+--
+create table IF not exists `completadas`(
+ `id` int(11) not null auto_increment,
+ `descripcion` varchar(2) not null,
+ primary key(`id`)
+ );
+ --
+-- tabla de apoyo para el estado de un curso
+--
+ insert into `completadas`(`descripcion`) VALUES 
+ ('si'),
+('no');
