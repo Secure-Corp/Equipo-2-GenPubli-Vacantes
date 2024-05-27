@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 Instrucciones para la dependencia de la librería WeasyPrint
+=======
+	Instrucciones para la Dependencia de la librería WeasyPrint
+>>>>>>> 71bc89922983743557ea1dd9219ed94ee9be146f
 
 Instalar el paquete GTK:
 
